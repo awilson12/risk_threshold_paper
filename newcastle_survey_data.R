@@ -1,5 +1,5 @@
 library(readxl)
-Data_raw1303 <- read_excel("C:/Users/wilso/Downloads/Data_raw1303.xlsx")
+Data_raw1303 <- read_excel("Data_raw1303.xlsx")
 
 #Sub-setting so only including responses for total risk (no marginal risk)
 #The reason for this is our study is focused on total risk
@@ -144,6 +144,8 @@ ggplot(data_compare,aes(fill=type,group=survey,x=risks))+geom_histogram(alpha=0.
 
 require(fitdistrplus)
 
+#------------------ W in Area 1 v 2------------------------------------------------------------------------
+
 weibull_W_q2<-fitdist(as.numeric(Data$acceptable_risk_W_q2[!is.na(Data$acceptable_risk_W_q2)]),"weibull")
 plot(weibull_W_q2)
 exponential_W_q2<-fitdist(as.numeric(Data$acceptable_risk_W_q2[!is.na(Data$acceptable_risk_W_q2)]),"exp")
@@ -155,3 +157,31 @@ plot(gamma_W_q2)
 
 denscomp(list(weibull_W_q2,exponential_W_q2,lognormal_W_q2,gamma_W_q2),legendtext=c("Weibull","Exponential","Lognormal","Gamma"),plotstyle="ggplot") +
   geom_line(linetype = "dashed",size = 1)+ theme_bw()+ggtitle("Distribution Fit Comparison for Acceptable W Risks, Area 1 vs 2")
+
+#---------------- W in Area 1 v 3--------------------------------------------------------------------------
+
+weibull_W_q6<-fitdist(as.numeric(Data$acceptable_risk_W_q6[!is.na(Data$acceptable_risk_W_q6)]),"weibull")
+plot(weibull_W_q6)
+exponential_W_q6<-fitdist(as.numeric(Data$acceptable_risk_W_q6[!is.na(Data$acceptable_risk_W_q6)]),"exp")
+plot(exponential_W_q6)
+lognormal_W_q6<-fitdist(as.numeric(Data$acceptable_risk_W_q6[!is.na(Data$acceptable_risk_W_q6)]),"lnorm")
+plot(lognormal_W_q6)
+gamma_W_q6<-fitdist(as.numeric(Data$acceptable_risk_W_q6[!is.na(Data$acceptable_risk_W_q6)]),"gamma")
+plot(gamma_W_q6)
+
+denscomp(list(weibull_W_q6,exponential_W_q6,lognormal_W_q6,gamma_W_q6),legendtext=c("Weibull","Exponential","Lognormal","Gamma"),plotstyle="ggplot") +
+  geom_line(linetype = "dashed",size = 1)+ theme_bw()+ggtitle("Distribution Fit Comparison for Acceptable W Risks, Area 1 vs 3")
+
+
+#---------------- W in Area 2 v 3--------------------------------------------------------------------------
+weibull_R_q10<-fitdist(as.numeric(Data$acceptable_risk_R_q10[!is.na(Data$acceptable_risk_R_q10)]),"weibull")
+plot(weibull_R_q10)
+exponential_R_q10<-fitdist(as.numeric(Data$acceptable_risk_R_q10[!is.na(Data$acceptable_risk_R_q10)]),"exp")
+plot(exponential_R_q10)
+lognormal_R_q10<-fitdist(as.numeric(Data$acceptable_risk_R_q10[!is.na(Data$acceptable_risk_R_q10)]),"lnorm")
+plot(lognormal_R_q10)
+gamma_R_q10<-fitdist(as.numeric(Data$acceptable_risk_R_q10[!is.na(Data$acceptable_risk_R_q10)]),"gamma")
+plot(gamma_R_q10)
+
+denscomp(list(weibull_R_q10,exponential_R_q10,lognormal_R_q10,gamma_R_q10),legendtext=c("Weibull","Exponential","Lognormal","Gamma"),plotstyle="ggplot",breaks=20) +
+  geom_line(linetype = "dashed",size = 1)+ theme_bw()+ggtitle("Distribution Fit Comparison for Acceptable R Risks, Area 2 vs 3")
