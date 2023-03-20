@@ -53,15 +53,15 @@ for (i in 1:10){
   Data$acceptable_risk_R_q2[Data$q1==2 & Data$q2==i]<-a1v2.area2R[i]
   
   #area 1 v 3----------------------------------------------------------
-  Data$acceptable_risk_W_q6[Data$q5==1 & Data$q2==i]<-a1v3.area1W[i]
-  Data$acceptable_risk_W_q6[Data$q5==3 & Data$q2==i]<-a1v3.area3W
+  Data$acceptable_risk_W_q6[Data$q5==1 & Data$q6==i]<-a1v3.area1W[i]
+  Data$acceptable_risk_W_q6[Data$q5==3 & Data$q6==i]<-a1v3.area3W
   
-  Data$acceptable_risk_F_q6[Data$q5==1 & Data$q2==i]<-a1v3.area1F
-  Data$acceptable_risk_F_q6[Data$q5==3 & Data$q2==i]<-a1v3.area3F[i]
+  Data$acceptable_risk_F_q6[Data$q5==1 & Data$q6==i]<-a1v3.area1F
+  Data$acceptable_risk_F_q6[Data$q5==3 & Data$q6==i]<-a1v3.area3F[i]
   
   #area 2 v 3----------------------------------------------------------
-  Data$acceptable_risk_R_q10[Data$q9==2 & Data$q2==i]<-a2v3.area2R[i]
-  Data$acceptable_risk_R_q10[Data$q9==3 & Data$q2==i]<-a2v3.area3R
+  Data$acceptable_risk_R_q10[Data$q9==2 & Data$q10==i]<-a2v3.area2R[i]
+  Data$acceptable_risk_R_q10[Data$q9==3 & Data$q10==i]<-a2v3.area3R
   
   Data$acceptable_risk_F_q10[Data$q9==2 & Data$q2==i]<-a2v3.area2F
   Data$acceptable_risk_F_q10[Data$q9==3 & Data$q2==i]<-a2v3.area3F[i]
@@ -158,6 +158,9 @@ plot(gamma_W_q2)
 denscomp(list(weibull_W_q2,exponential_W_q2,lognormal_W_q2,gamma_W_q2),legendtext=c("Weibull","Exponential","Lognormal","Gamma"),plotstyle="ggplot") +
   geom_line(linetype = "dashed",size = 1)+ theme_bw()+ggtitle("Distribution Fit Comparison for Acceptable W Risks, Area 1 vs 2")
 
+stats.1<-gofstat(list(weibull_W_q2,exponential_W_q2,lognormal_W_q2,gamma_W_q2))
+stats.1$chisqpvalue
+stats.1$kstest
 #---------------- W in Area 1 v 3--------------------------------------------------------------------------
 
 weibull_W_q6<-fitdist(as.numeric(Data$acceptable_risk_W_q6[!is.na(Data$acceptable_risk_W_q6)]),"weibull")
@@ -172,6 +175,7 @@ plot(gamma_W_q6)
 denscomp(list(weibull_W_q6,exponential_W_q6,lognormal_W_q6,gamma_W_q6),legendtext=c("Weibull","Exponential","Lognormal","Gamma"),plotstyle="ggplot") +
   geom_line(linetype = "dashed",size = 1)+ theme_bw()+ggtitle("Distribution Fit Comparison for Acceptable W Risks, Area 1 vs 3")
 
+gofstat(list(weibull_W_q6,exponential_W_q6,lognormal_W_q6,gamma_W_q6))
 
 #---------------- W in Area 2 v 3--------------------------------------------------------------------------
 weibull_R_q10<-fitdist(as.numeric(Data$acceptable_risk_R_q10[!is.na(Data$acceptable_risk_R_q10)]),"weibull")
@@ -185,3 +189,5 @@ plot(gamma_R_q10)
 
 denscomp(list(weibull_R_q10,exponential_R_q10,lognormal_R_q10,gamma_R_q10),legendtext=c("Weibull","Exponential","Lognormal","Gamma"),plotstyle="ggplot",breaks=20) +
   geom_line(linetype = "dashed",size = 1)+ theme_bw()+ggtitle("Distribution Fit Comparison for Acceptable R Risks, Area 2 vs 3")
+
+gofstat(list(weibull_R_q10,exponential_R_q10,lognormal_R_q10,gamma_R_q10))
