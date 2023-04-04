@@ -191,3 +191,36 @@ denscomp(list(weibull_R_q10,exponential_R_q10,lognormal_R_q10,gamma_R_q10),legen
   geom_line(linetype = "dashed",size = 1)+ theme_bw()+ggtitle("Distribution Fit Comparison for Acceptable R Risks, Area 2 vs 3")
 
 gofstat(list(weibull_R_q10,exponential_R_q10,lognormal_R_q10,gamma_R_q10))
+
+#-------------- Using one of these distributions to produce 10,000 simulated indifference points (right-truncated at zero)---------
+meanlog_dist<-lognormal_W_q2$estimate[1]
+sdlog_dist<-lognormal_W_q2$estimate[2]
+
+require(truncdist)
+
+numit<-10000
+
+indiff_sim<-rtrunc(numit,"lnorm",b=1,meanlog=meanlog_dist,sdlog=sdlog_dist)
+hist(indiff_sim)
+summary(indiff_sim)
+
+#-------------- Using another distribution to produce 10,000 simulated indifference points (right-truncated at zero) for robustness-----
+S1_meanlog_dist<-lognormal_W_q6$estimate[1]
+S1_sdlog_dist<-lognormal_W_q6$estimate[2]
+
+S1_indiff_sim<-rtrunc(numit,"lnorm",b=1,meanlog=S1_meanlog_dist,sdlog=S1_sdlog_dist)
+hist(S1_indiff_sim)
+summary(S1_indiff_sim)
+
+#------------- Compare the original and sensitivity analysis distributions--------------------------------------------------------------
+require(ggplot2)
+require(ggpubr)
+frame<-data.frame(indiff=c(indiff_sim,S1_indiff_sim),
+                  type = c(rep("Primary Distribution",numit),
+                           rep("Sensitivity Analysis Distribution",numit)))
+
+ggplot(data=frame,aes(x=indiff,group=type))+geom_histogram(aes(y=..density..,fill=type),alpha=0.2)+geom_density(aes(color=type))+
+  scale_x_continuous(name="Simulated Indifference Points")+
+  scale_y_continuous(name="Density")+
+  scale_fill_discrete(name="Data Source (n=10,000 per source)")+
+  scale_color_discrete(name="Data Source (n=10,000 per source)")
