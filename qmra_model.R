@@ -1,12 +1,11 @@
 #---------------  QMRA Model  -------------------------------------------------
 
 
-QMRA_model<-function(threshold,iterations=10000){
+QMRA_model<-function(threshold,iterations=10000,model){
   #threshold will be informed by median, 95th, or 99th percentiles from generated
   #indifference points. iterations set to 10,000 but can be modified to investigate
   #appropriateness of 10,000 points for capturing central tendency.
   
-  model<-modelrun
   
   #-------------------------parameters-----------------------------------------
   
