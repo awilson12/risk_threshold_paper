@@ -17,7 +17,7 @@ modelrun<-c("Median Dist. 1","Median Dist. 2",
             "5th Dist. 1","5th Dist. 2",
             "1st Dist. 1","1st Dist. 2")
 
-iterations.total<-10000
+iterations.total<-50000
 
 
   
@@ -73,6 +73,17 @@ iterations.total<-10000
  
   
   } #end of iterations through model types
+
+#--------------SUMMARIZE ESTIMATED INFECTION RISKS---------------------------------------------------------
+
+#checking stabilization of median and mean. Setting seed for 10,000 samples for indifference points and 50,000 reserve
+#QMRA iterations yielded means and medians that were stabilized within 1 decimal place. For example, 0.050 vs. 0.045. In one
+#instance, 0.055 was observed as a median while others would all be rounded to 0.05. This was deemed acceptable, however.
+
+summary(save.day.touch.list[[5]]$risk_daily)
+summary(save.single.touch.list[[4]]$risk_single)
+
+#-------------- CALCULATIONS ON CONCENTRATION THRESHOLDS----------------------------------------------------
   
   frame.max.conc<-data.frame(max_allow_single_total,max_allow_daily_total,modelall)
   
