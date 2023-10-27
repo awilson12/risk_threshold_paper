@@ -200,6 +200,8 @@ require(truncdist)
 
 numit<-10000
 
+set.seed(34)
+
 indiff_sim<-rtrunc(numit,"lnorm",b=1,meanlog=meanlog_dist,sdlog=sdlog_dist)
 hist(indiff_sim)
 summary(indiff_sim)

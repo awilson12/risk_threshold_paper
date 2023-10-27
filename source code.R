@@ -80,7 +80,7 @@ iterations.total<-50000
 #QMRA iterations yielded means and medians that were stabilized within 1 decimal place. For example, 0.050 vs. 0.045. In one
 #instance, 0.055 was observed as a median while others would all be rounded to 0.05. This was deemed acceptable, however.
 
-summary(save.day.touch.list[[5]]$risk_daily)
+summary(save.day.touch.list[[4]]$risk_daily)
 summary(save.single.touch.list[[4]]$risk_single)
 
 #-------------- CALCULATIONS ON CONCENTRATION THRESHOLDS----------------------------------------------------
@@ -104,104 +104,73 @@ View(frame.summary)
 
 
 
-
-#------------------ old figure code-----------------------------------------------------
-
+#for (i in 1:length(runs)){
   
- # p=ggplot(data)+geom_point(aes(x=C.surface,y=risk_single,color=threshold_compliance))+
-#    geom_hline(yintercept=data$threshold[1],color="red",linetype="dashed",lwd=1)+
-#    geom_vline(xintercept=max_allow_single,color="black",linetype="solid",lwd=1)+
-#    scale_x_continuous(trans="log10",name=expression("Concentration on Surfaces (PFU/cm"^2*")"))+
-#    scale_y_continuous(trans="log10",name="Infection Risk from Single Fomite Touch")+
-#    geom_label(aes(label=paste("Maximum Allowable Conc.",round(max_allow_single,2)),x=max_allow_single,y=1e-8),fill="white")+
-#    geom_label(aes(label=paste("Risk Threshold",round(data$threshold[1],3)),x=1e-3,y=data$threshold[1]),fill="white")+
-#    scale_color_discrete(name="Threshold Compliance")+
-#    theme(legend.position="top",axis.text=element_text(size=12),axis.title=element_text(size=12),legend.title=element_text(size=12),
-#          legend.text=element_text(size=12))
-#  ggsave(p,file=sprintf("single_fomite_%.3f.png",data$threshold[1]),width=7,height=4, units=c("in"))
+#  print(i)
   
-#  p2<-ggplot(data2)+geom_point(aes(x=C.surface,y=risk_daily,color=threshold_compliance))+
-#    geom_hline(yintercept=data2$threshold[1],color="red",linetype="dashed",lwd=1)+
-#    geom_vline(xintercept=max_allow_daily,color="black",linetype="solid",lwd=1)+
-#    scale_x_continuous(trans="log10",name=expression("Concentration on Surfaces (PFU/cm"^2*")"))+
-#    scale_y_continuous(trans="log10",name="Infection Risk from Daily Fomite Touch")+
-#    geom_label(aes(label=paste("Maximum Allowable Conc.",round(max_allow_daily,2)),x=max_allow_daily,y=1e-8),fill="white")+
-#    geom_label(aes(label=paste("Risk Threshold",round(data2$threshold[1],3)),x=1e-2,y=data2$threshold[1]),fill="white")+
-#    scale_color_discrete(name="Threshold Compliance")+
-#    theme(legend.position="top",axis.text=element_text(size=12),axis.title=element_text(size=12),legend.title=element_text(size=12),
-#          legend.text=element_text(size=12))
-# ggsave(p2,file=sprintf("daily_fomite_%.3f.png",data2$threshold[1]),width=7,height=4, units=c("in"))
-
-  
-  
-  
-for (i in 1:length(runs)){
-  
-  print(i)
-  
-  model<-modelrun[i]
+#  model<-modelrun[i]
   
   #run QMRA model (single fomite touch and daily fomite exposure)
-  QMRA_model(threshold=runs[i],model=model)
+#  QMRA_model(threshold=runs[i],model=model)
   
   #save output from single fomite touch model
-  save.single.touch.list[[i]]<-QMRA_model_output_single_touch
+#  save.single.touch.list[[i]]<-QMRA_model_output_single_touch
   
   #save output from daily fomite exposure model
-  save.day.touch.list[[i]]<-QMRA_model_output_day_touch
+#  save.day.touch.list[[i]]<-QMRA_model_output_day_touch
   
   
   #------------ single fomite touch plot--------------------------------------------------------------
   
   #extracting data from list to do plotting
-  data<-save.single.touch.list[[i]]
-  data$threshold_compliance<-"No"
-  data$threshold_compliance[data$risk_single<data$threshold]<-"Yes"
-  data$maximum_allowable_conc<-min(data$C.surface[data$threshold_compliance=="No"])
+#  data<-save.single.touch.list[[i]]
+#  data$threshold_compliance<-"No"
+#  data$threshold_compliance[data$risk_single<data$threshold]<-"Yes"
+#  data$maximum_allowable_conc<-min(data$C.surface[data$threshold_compliance=="No"])
   
-   p=ggplot(data)+geom_point(aes(x=C.surface,y=risk_single,color=threshold_compliance))+
-    geom_hline(yintercept=data$threshold[1],color="grey",linetype="dashed",lwd=1)+
-    geom_vline(xintercept=max_allow_single,color="black",linetype="solid",lwd=1)+
-    scale_x_continuous(trans="log10",name=expression("Concentration on Surfaces (viral particles/cm"^2*")"))+
-    scale_y_continuous(trans="log10",name="Infection Risk from Single Fomite Touch")+
-    geom_label(aes(label=paste("Maximum Allowable Conc.",round(max_allow_single,2)),x=max_allow_single,y=1e-8),fill="white")+
-    geom_label(aes(label=paste("Risk Threshold",round(data$threshold[1],3)),x=1e-3,y=data$threshold[1]),fill="white")+
-     scale_color_manual(name="Threshold Compliance",values=c("#E69F00", "#56B4E9"))+
-     theme(legend.position="top",axis.text=element_text(size=12),axis.title=element_text(size=12),legend.title=element_text(size=12),
-          legend.text=element_text(size=12))
-  ggsave(p,file=sprintf("single_fomite_%.3f.png",data$threshold[1]),width=7,height=4, units=c("in"))
+ #  p=ggplot(data)+geom_point(aes(x=C.surface,y=risk_single,color=threshold_compliance))+
+#    geom_hline(yintercept=data$threshold[1],color="grey",linetype="dashed",lwd=1)+
+ #   geom_vline(xintercept=max_allow_single,color="black",linetype="solid",lwd=1)+
+#    scale_x_continuous(trans="log10",name=expression("Concentration on Surfaces (viral particles/cm"^2*")"))+
+ #   scale_y_continuous(trans="log10",name="Infection Risk from Single Fomite Touch")+
+#    geom_label(aes(label=paste("Maximum Allowable Conc.",round(max_allow_single,2)),x=max_allow_single,y=1e-8),fill="white")+
+ #   geom_label(aes(label=paste("Risk Threshold",round(data$threshold[1],3)),x=1e-3,y=data$threshold[1]),fill="white")+
+#     scale_color_manual(name="Threshold Compliance",values=c("#E69F00", "#56B4E9"))+
+ #    theme(legend.position="top",axis.text=element_text(size=12),axis.title=element_text(size=12),legend.title=element_text(size=12),
+#          legend.text=element_text(size=12))
+#  ggsave(p,file=sprintf("single_fomite_%.3f.png",data$threshold[1]),width=7,height=4, units=c("in"))
   
 
   #-------------- daily fomite touch plot---------------------------------------------------------------------------
   
-  data2<-save.day.touch.list[[i]]
-  data2$threshold_compliance<-"No"
-  data2$threshold_compliance[data2$risk_daily<data2$threshold]<-"Yes"
-  data2$maximum_allowable_conc<-min(data2$C.surface[data2$threshold_compliance=="No"])
+#  data2<-save.day.touch.list[[i]]
+#  data2$threshold_compliance<-"No"
+#  data2$threshold_compliance[data2$risk_daily<data2$threshold]<-"Yes"
+#  data2$maximum_allowable_conc<-min(data2$C.surface[data2$threshold_compliance=="No"])
   
-  p2<-ggplot(data2)+geom_point(aes(x=C.surface,y=risk_daily,color=threshold_compliance))+
-    geom_hline(yintercept=data2$threshold[1],color="grey",linetype="dashed",lwd=1)+
-    geom_vline(xintercept=max_allow_daily,color="black",linetype="solid",lwd=1)+
-    scale_x_continuous(trans="log10",name=expression("Concentration on Surfaces (viral particles/cm"^2*")"))+
-    scale_y_continuous(trans="log10",name="Infection Risk from Daily Fomite Touch")+
-    geom_label(aes(label=paste("Maximum Allowable Conc.",round(max_allow_daily,2)),x=max_allow_daily,y=1e-8),fill="white")+
-    geom_label(aes(label=paste("Risk Threshold",round(data2$threshold[1],3)),x=1e-2,y=data2$threshold[1]),fill="white")+
-    scale_color_manual(name="Threshold Compliance",values=c("#E69F00", "#56B4E9"))+
-    theme(legend.position="top",axis.text=element_text(size=12),axis.title=element_text(size=12),legend.title=element_text(size=12),
-          legend.text=element_text(size=12))
-  ggsave(p2,file=sprintf("daily_fomite_%.3f.png",data2$threshold[1]),width=7,height=4, units=c("in"))
+#  p2<-ggplot(data2)+geom_point(aes(x=C.surface,y=risk_daily,color=threshold_compliance))+
+#    geom_hline(yintercept=data2$threshold[1],color="grey",linetype="dashed",lwd=1)+
+#    geom_vline(xintercept=max_allow_daily,color="black",linetype="solid",lwd=1)+
+#    scale_x_continuous(trans="log10",name=expression("Concentration on Surfaces (viral particles/cm"^2*")"))+
+#    scale_y_continuous(trans="log10",name="Infection Risk from Daily Fomite Touch")+
+#    geom_label(aes(label=paste("Maximum Allowable Conc.",round(max_allow_daily,2)),x=max_allow_daily,y=1e-8),fill="white")+
+#    geom_label(aes(label=paste("Risk Threshold",round(data2$threshold[1],3)),x=1e-2,y=data2$threshold[1]),fill="white")+
+#    scale_color_manual(name="Threshold Compliance",values=c("#E69F00", "#56B4E9"))+
+#    theme(legend.position="top",axis.text=element_text(size=12),axis.title=element_text(size=12),legend.title=element_text(size=12),
+#          legend.text=element_text(size=12))
+#  ggsave(p2,file=sprintf("daily_fomite_%.3f.png",data2$threshold[1]),width=7,height=4, units=c("in"))
   
   
-}
+#}
   
-  frame.summary2<-data.frame(means=c(frame.summary$means_daily,frame.summary$means_single),
-                             SDs=c(frame.summary$sds_daily,frame.summary$sds_single),
-                             type=c(rep("Daily",length(frame.summary$means_daily)),
-                                    rep("Single Touch",length(frame.summary$means_single))),
-                             model=rep(frame.summary$modelrun,2),
-                             distribution=rep(c("Indifference Point Distribution 1","Indifference Point Distribution 2"),8),
-                             percentile=c("Median","Median","Mean","Mean",
-                                          "5th Percentile","5th Percentile","1st Percentile","1st Percentile"))
+#  frame.summary2<-data.frame(means=c(frame.summary$means_daily,frame.summary$means_single),
+#                             SDs=c(frame.summary$sds_daily,frame.summary$sds_single),
+#                             type=c(rep("Daily",length(frame.summary$means_daily)),
+#                                    rep("Single Touch",length(frame.summary$means_single))),
+#                             model=rep(frame.summary$modelrun,2),
+#                             distribution=rep(c("Indifference Point Distribution 1","Indifference Point Distribution 2"),8),
+#                             percentile=c("Median","Median","Mean","Mean",
+#                                          "5th Percentile","5th Percentile","1st Percentile","1st Percentile"))
   
   
   #windows()
@@ -218,40 +187,40 @@ for (i in 1:length(runs)){
   #        axis.title=element_text(size=16),legend.text = element_text(size=16),strip.text = element_text(size=16))+
   #  facet_wrap(~type)
   
-  frame.max.conc2<-data.frame(conc=c(frame.max.conc$max_allow_single_total,frame.max.conc$max_allow_daily_total),
-                              type=c(rep("Single Touch",length(frame.max.conc$max_allow_single_total)),
-                                     rep("Daily Exposure",length(frame.max.conc$max_allow_daily_total))),
-                              model=rep(frame.max.conc$modelall,2))
+#  frame.max.conc2<-data.frame(conc=c(frame.max.conc$max_allow_single_total,frame.max.conc$max_allow_daily_total),
+#                              type=c(rep("Single Touch",length(frame.max.conc$max_allow_single_total)),
+#                                     rep("Daily Exposure",length(frame.max.conc$max_allow_daily_total))),
+#                              model=rep(frame.max.conc$modelall,2))
+#  
+#  frame.max.conc2$distribution<-NA
+#  frame.max.conc2$distribution[frame.max.conc$model=="1st Dist. 1" |
+#                               frame.max.conc$model=="5th Dist. 1" |
+#                               frame.max.conc$model=="Mean Dist. 1" |
+#                               frame.max.conc$model=="Median Dist. 1"]<-"Indifference Point Distribution 1"
+#  frame.max.conc2$distribution[frame.max.conc$model=="1st Dist. 2" |
+#                                 frame.max.conc$model=="5th Dist. 2" |
+#                                 frame.max.conc$model=="Mean Dist. 2" |
+#                                 frame.max.conc$model=="Median Dist. 2"]<-"Indifference Point Distribution 2"
+#  frame.max.conc2$model[frame.max.conc$model=="1st Dist. 1" |frame.max.conc$model=="1st Dist. 2"]<-"1st Percentile"
+#  frame.max.conc2$model[frame.max.conc$model=="5th Dist. 1" | frame.max.conc$model=="5th Dist. 2"]<-"5th Percentile"
+#  frame.max.conc2$model[frame.max.conc$model=="Median Dist. 1" |frame.max.conc$model== "Median Dist. 2"]<-"Median"
+#  frame.max.conc2$model[frame.max.conc$model=="Mean Dist. 1" |frame.max.conc$model== "Mean Dist. 2"]<-"Mean"
   
-  frame.max.conc2$distribution<-NA
-  frame.max.conc2$distribution[frame.max.conc$model=="1st Dist. 1" |
-                               frame.max.conc$model=="5th Dist. 1" |
-                               frame.max.conc$model=="Mean Dist. 1" |
-                               frame.max.conc$model=="Median Dist. 1"]<-"Indifference Point Distribution 1"
-  frame.max.conc2$distribution[frame.max.conc$model=="1st Dist. 2" |
-                                 frame.max.conc$model=="5th Dist. 2" |
-                                 frame.max.conc$model=="Mean Dist. 2" |
-                                 frame.max.conc$model=="Median Dist. 2"]<-"Indifference Point Distribution 2"
-  frame.max.conc2$model[frame.max.conc$model=="1st Dist. 1" |frame.max.conc$model=="1st Dist. 2"]<-"1st Percentile"
-  frame.max.conc2$model[frame.max.conc$model=="5th Dist. 1" | frame.max.conc$model=="5th Dist. 2"]<-"5th Percentile"
-  frame.max.conc2$model[frame.max.conc$model=="Median Dist. 1" |frame.max.conc$model== "Median Dist. 2"]<-"Median"
-  frame.max.conc2$model[frame.max.conc$model=="Mean Dist. 1" |frame.max.conc$model== "Mean Dist. 2"]<-"Mean"
   
   
-  
-  windows()
-  ggplot(frame.max.conc2,aes(x=interaction(model,distribution),y=conc,fill=distribution))+
-    geom_violin(draw_quantiles = c(0.25,0.5,0.75))+
-    facet_grid(~type)+
-    scale_y_continuous(trans="log10",name="Concentration Thresholds (Mean +/- SD)")+
-    scale_x_discrete(name="",labels=c("1st Percentile","5th Percentile","Mean","Median",
-                                      "1st Percentile","5th Percentile","Mean","Median"))+
-    scale_fill_manual(name="",values=c("#E69F00", "#56B4E9"))+
-    theme_pubr()+
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),axis.text = element_text(size=16),
-          axis.title=element_text(size=16),legend.text = element_text(size=16),strip.text = element_text(size=16))+
-    geom_hline(yintercept = 6.78E3)+
-    annotate("rect",alpha=.2,fill="grey",xmin=0,xmax=9,ymin=1.68E-1*(1E-3),ymax=6.73E3*(1E-3))
+#  windows()
+#  ggplot(frame.max.conc2,aes(x=interaction(model,distribution),y=conc,fill=distribution))+
+#    geom_violin(draw_quantiles = c(0.25,0.5,0.75))+
+#    facet_grid(~type)+
+#    scale_y_continuous(trans="log10",name="Concentration Thresholds (Mean +/- SD)")+
+#    scale_x_discrete(name="",labels=c("1st Percentile","5th Percentile","Mean","Median",
+#                                      "1st Percentile","5th Percentile","Mean","Median"))+
+#    scale_fill_manual(name="",values=c("#E69F00", "#56B4E9"))+
+#    theme_pubr()+
+#    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),axis.text = element_text(size=16),
+#          axis.title=element_text(size=16),legend.text = element_text(size=16),strip.text = element_text(size=16))+
+#    geom_hline(yintercept = 6.78E3)+
+#    annotate("rect",alpha=.2,fill="grey",xmin=0,xmax=9,ymin=1.68E-1*(1E-3),ymax=6.73E3*(1E-3))
   
 
 #--------------calculating needed log10 reductions to reach threshold-------------------------

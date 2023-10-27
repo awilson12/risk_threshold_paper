@@ -6,6 +6,8 @@ QMRA_model<-function(threshold,iterations=10000,model){
   #indifference points. iterations set to 10,000 but can be modified to investigate
   #appropriateness of 10,000 points for capturing central tendency.
   
+  set.seed(34)
+  
   
   #-------------------------parameters-----------------------------------------
   
