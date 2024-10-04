@@ -17,7 +17,7 @@ modelrun<-c("Median Dist. 1","Median Dist. 2",
             "5th Dist. 1","5th Dist. 2",
             "1st Dist. 1","1st Dist. 2")
 
-iterations.total<-10000
+iterations.total<-50000
 
   
   for (i in 1:length(runs)){
