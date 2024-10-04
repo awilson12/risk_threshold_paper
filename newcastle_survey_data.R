@@ -139,6 +139,21 @@ ggplot(data_compare,aes(fill=type,group=survey,x=risks))+geom_histogram(alpha=0.
   theme_bw()+
   theme(legend.position = "none")
 
+#summary statistics for Area 1 v 2
+threshold_median_primary<-median(Data$acceptable_risk_W_q2[!is.na(Data$acceptable_risk_W_q2)])
+threshold_mean_primary<-mean(Data$acceptable_risk_W_q2[!is.na(Data$acceptable_risk_W_q2)])
+threshold_5th_primary<-quantile((Data$acceptable_risk_W_q2[!is.na(Data$acceptable_risk_W_q2)]),c(.05))
+threshold_1st_primary<-quantile((Data$acceptable_risk_W_q2[!is.na(Data$acceptable_risk_W_q2)]),c(.01))
+
+#summary statistics for Area 1 v 3
+threshold_median_primary<-median(Data$acceptable_risk_W_q6[!is.na(Data$acceptable_risk_W_q6)])
+threshold_mean_primary<-mean(Data$acceptable_risk_W_q6[!is.na(Data$acceptable_risk_W_q6)])
+threshold_5th_primary<-quantile((Data$acceptable_risk_W_q6[!is.na(Data$acceptable_risk_W_q6)]),c(.05))
+threshold_1st_primary<-quantile((Data$acceptable_risk_W_q6[!is.na(Data$acceptable_risk_W_q6)]),c(.01))
+           
+
+#summary statistics for Area
+
 #Focusing on fitting distributions for W in both Area 1 v2 and 
 #Area 1 v 3 and for R in Area 2 v 3
 
@@ -161,6 +176,7 @@ denscomp(list(weibull_W_q2,exponential_W_q2,lognormal_W_q2,gamma_W_q2),legendtex
 stats.1<-gofstat(list(weibull_W_q2,exponential_W_q2,lognormal_W_q2,gamma_W_q2))
 stats.1$chisqpvalue
 stats.1$kstest
+stats.1$chisqtable
 #---------------- W in Area 1 v 3--------------------------------------------------------------------------
 
 weibull_W_q6<-fitdist(as.numeric(Data$acceptable_risk_W_q6[!is.na(Data$acceptable_risk_W_q6)]),"weibull")
@@ -197,10 +213,9 @@ meanlog_dist<-lognormal_W_q2$estimate[1]
 sdlog_dist<-lognormal_W_q2$estimate[2]
 
 require(truncdist)
+set.seed(34)
 
 numit<-10000
-
-set.seed(34)
 
 indiff_sim<-rtrunc(numit,"lnorm",b=1,meanlog=meanlog_dist,sdlog=sdlog_dist)
 hist(indiff_sim)
@@ -218,11 +233,11 @@ summary(S1_indiff_sim)
 require(ggplot2)
 require(ggpubr)
 frame<-data.frame(indiff=c(indiff_sim,S1_indiff_sim),
-                  type = c(rep("Primary Distribution",numit),
-                           rep("Sensitivity Analysis Distribution",numit)))
+                  type = c(rep("Dist. 1",numit),
+                           rep("Dist. 2",numit)))
 
 ggplot(data=frame,aes(x=indiff,group=type))+geom_histogram(aes(y=..density..,fill=type),alpha=0.2)+geom_density(aes(color=type))+
   scale_x_continuous(name="Simulated Indifference Points")+
   scale_y_continuous(name="Density")+
-  scale_fill_discrete(name="Data Source (n=10,000 per source)")+
-  scale_color_discrete(name="Data Source (n=10,000 per source)")
+  scale_fill_manual(name="Data Source (n=10,000 per source)",values=c("#E69F00", "#56B4E9"))+
+  scale_color_manual(name="Data Source (n=10,000 per source)",values=c("#E69F00", "#56B4E9"))
