@@ -6,8 +6,6 @@ QMRA_model<-function(threshold,iterations=10000,model){
   #indifference points. iterations set to 10,000 but can be modified to investigate
   #appropriateness of 10,000 points for capturing central tendency.
   
-  set.seed(34)
-  
   
   #-------------------------parameters-----------------------------------------
   
@@ -21,13 +19,13 @@ QMRA_model<-function(threshold,iterations=10000,model){
   A.hand<-runif(iterations,445,535) #comes from US Exposure Factors Handbook and a model by Beamer et al. This is for 1 hand, not 2 (as used in Beamer et al)
   
   #transfer efficiency of surface to hand
-  TE.SH<-rbeta(iterations,shape1=0.64,shape2=3.1) #comes from the recent Boehm paper for enveloped virus fit, NEED TO DOUBLE-CHECK SHAPE1 AND SHAPE 2 CORRESPOND TO ALPHA AND BETA
+  TE.SH<-rbeta(iterations,shape1=0.64,shape2=3.1) #comes from the recent Boehm paper for enveloped virus fit
   
   #transfer efficiency of hand to face
   TE.HF<-rtrunc(iterations,"norm",a=0,b=1,mean=0.3390,sd=0.1318) #from Rusin, virus data, SD informed by Sarah's paper
   
   #transfer efficiency of hand to surface
-  TE.HS<-rbeta(iterations,shape1=0.64,shape2=3.1) #comes from the recent Boehm paper for enveloped virus fit, NEED TO DOUBLE-CHECK SHAPE1 AND SHAPE 2 CORRESPOND TO ALPHA AND BETA
+  TE.HS<-rbeta(iterations,shape1=0.64,shape2=3.1) #comes from the recent Boehm paper for enveloped virus fit
   
   #dose response parameter (k)
   k<-2.46E-3   #dose-response param used by Pitol & Julian in COVID-19 fomite model
@@ -35,16 +33,17 @@ QMRA_model<-function(threshold,iterations=10000,model){
   #concentration on the surface
   C.surface<-10^runif(iterations,-5,5) #exploring wide range to see which C.surf values yield acceptable risks
   
-  #hand-to-surface contact rate
-  H.surf<-rtrunc(iterations,"lnorm",a=0,b=9.7,meanlog=log(4.1),sdlog=log(1.6)) #from Beamer et al office paper, also used in Contreras et al office paper
+  #hand-to-surface contact rate (contacts per min)
+  H.surf<-rtrunc(iterations,"lnorm",a=0,b=9.8,meanlog=log(4.1),sdlog=log(1.6))*60 #from Beamer et al office paper, also used in Contreras et al office paper
+  #H.surf<-rtrunc(iterations,"lnorm",a=0,b=9.8,meanlog=log(4.1),sdlog=log(1.6)) #from Beamer et al office paper, also used in Contreras et al office paper
   
-  #hand-to-mouth contact rate
+  #hand-to-mouth contact rate (contacts per hr)
   H.mouth<-rtrunc(iterations,"norm",a=0,b=10,mean=2.9,sd=2.5) #from our paper in JESEE
   
-  #hand-to-eyes contact rate
+  #hand-to-eyes contact rate (contacts per hr)
   H.eyes<-rtrunc(iterations,"norm",a=0,b=6,mean=2.4,sd=1.9) #from our paper in JESEE
   
-  #hand-to-nose contact rate
+  #hand-to-nose contact rate (contacts per hr)
   H.nose<-rtrunc(iterations,"norm",a=0,b=10.4,mean=2.5,sd=2.2) #from our paper in JESEE
   
   #inactivation rate (fraction/hr)
